@@ -1,9 +1,9 @@
-# Email-client
+# CS50W - Project 3
 Design a front-end for an email client that makes API calls to send and receive emails.
 
 ---
 
-### Specification
+## Specification
 Using JavaScript, HTML, and CSS, complete the implementation of your single-page-app email client inside of inbox.js (and not additional or other files; for grading purposes, we’re only going to be considering inbox.js!). You must fulfill the following requirements:
 
 - [ ] Send Mail: When a user submits the email composition form, add JavaScript code to actually send the email.
