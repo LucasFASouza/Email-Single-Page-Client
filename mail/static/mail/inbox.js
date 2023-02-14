@@ -23,8 +23,6 @@ function compose_email() {
 }
 
 function load_mailbox(mailbox) {
-    console.log("loading " + mailbox);
-
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
@@ -36,10 +34,9 @@ function load_mailbox(mailbox) {
   fetch('/emails/' + mailbox)
     .then(response => response.json())
     .then(emails => {
-        console.log(emails);
-
         emails.forEach(email => {
             let div = document.createElement('div');
+            div.className = "email-list-item";
             div.innerHTML = `
                 <span> <b>${email['sender']}</b> </span>
                 <span> ${email['subject']} </span>
