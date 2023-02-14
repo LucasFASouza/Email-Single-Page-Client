@@ -90,5 +90,17 @@ function load_email(id) {
         method: 'PUT',
         body: JSON.stringify({ read : true })
       })
+
+      archiveButton = document.createElement('button');
+	  archiveButton.className = "btn btn-sm btn-outline-secondary";
+	  archiveButton.innerHTML = !email['archived'] ? 'Archive' : 'Unarchive';
+	  archiveButton.addEventListener('click', function() {
+		fetch('/emails/' + email['id'], {
+		  method: 'PUT',
+		  body: JSON.stringify({ archived : !email['archived'] })
+		})
+		.then(response => load_mailbox('inbox'))
+	  });
+	  emailContent.appendChild(archiveButton);
     });
 }
