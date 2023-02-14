@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function compose_email() {
-
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
@@ -24,13 +23,33 @@ function compose_email() {
 }
 
 function load_mailbox(mailbox) {
-  
+    console.log("loading " + mailbox);
+
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  const emailsContent = document.querySelector('#emails-view');
+  emailsContent.innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+  fetch('/emails/' + mailbox)
+    .then(response => response.json())
+    .then(emails => {
+        console.log(emails);
+
+        emails.forEach(email => {
+            let div = document.createElement('div');
+            div.innerHTML = `
+                <span> <b>${email['sender']}</b> </span>
+                <span> ${email['subject']} </span>
+                <span> ${email['timestamp']} </span>
+            `;
+
+            div.addEventListener('click', () => console.log(email));
+            emailsContent.appendChild(div);
+        });
+    });
 }
 
 function submit_email(event) {
