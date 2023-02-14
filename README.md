@@ -4,6 +4,17 @@ Design a front-end for an email client that makes API calls to send and receive 
 
 ---
 
+![Mailbox](https://user-images.githubusercontent.com/32396925/218850751-d9f92f1e-212f-4f1c-810b-f596cb15ae91.png "Mailbox")
+*When a user visits their Inbox, Sent mailbox, or Archive, the appropriate mailbox is loaded. If the email is unread, it appeares with a white background. If the email has been read, with a gray background.*
+
+![Email](https://user-images.githubusercontent.com/32396925/218850869-d3781aa7-3fed-45f6-a6ec-6f90754ee9cc.png "Email view")
+*When a user clicks on an email, the user is taken to a view where they see the content of that email. The application should show the email’s sender, recipients, subject, timestamp, and body.*
+
+![Reply](https://user-images.githubusercontent.com/32396925/218850955-9c235757-170c-4800-8f10-f60d6ee1502d.png "Reply to email")
+*When viewing an email, the user is presented with a “Reply” button that takes them to the a pre-filled email composition form.*
+
+---
+
 ## Specification
 
 Using JavaScript, HTML, and CSS, complete the implementation of your single-page-app email client inside of inbox.js (
@@ -39,11 +50,11 @@ the following requirements:
       requirement does not apply to emails in the Sent mailbox.
     - [x] Recall that you can send a PUT request to /emails/<email_id> to mark an email as archived or unarchived.
     - [x] Once an email has been archived or unarchived, load the user’s inbox.
-- [ ] Reply: Allow users to reply to an email.
-    - [ ] When viewing an email, the user should be presented with a “Reply” button that lets them reply to the email.
-    - [ ] When the user clicks the “Reply” button, they should be taken to the email composition form.
-    - [ ] Pre-fill the composition form with the recipient field set to whoever sent the original email.
-    - [ ] Pre-fill the subject line. If the original email had a subject line of foo, the new subject line should be Re:
+- [x] Reply: Allow users to reply to an email.
+    - [x] When viewing an email, the user should be presented with a “Reply” button that lets them reply to the email.
+    - [x] When the user clicks the “Reply” button, they should be taken to the email composition form.
+    - [x] Pre-fill the composition form with the recipient field set to whoever sent the original email.
+    - [x] Pre-fill the subject line. If the original email had a subject line of foo, the new subject line should be Re:
       foo. (If the subject line already begins with Re: , no need to add it again.)
-    - [ ] Pre-fill the body of the email with a line like "On Jan 1 2020, 12:00 AM foo@example.com wrote:" followed by
+    - [x] Pre-fill the body of the email with a line like "On Jan 1 2020, 12:00 AM foo@example.com wrote:" followed by
       the original text of the email.
