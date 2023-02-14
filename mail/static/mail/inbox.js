@@ -86,14 +86,37 @@ function load_email(id) {
           <p>${email['body']}</p>
         `;
 
-      fetch('/emails/' + email['id'], {
-        method: 'PUT',
-        body: JSON.stringify({ read : true })
-      })
+	  if (!email['read']) {
+	    fetch('/emails/' + email['id'], {
+		  method: 'PUT',
+		  body: JSON.stringify({ read : true })
+	    })
+	  }
 
-      archiveButton = document.createElement('button');
+	  const reply = document.createElement('button');
+	  reply.className = "btn btn-sm btn-outline-primary";
+	  reply.innerHTML = "Reply";
+	  reply.addEventListener('click', function() {
+		compose_email();
+
+		document.querySelector('#compose-recipients').value = email['sender'];
+
+		let subject = email['subject'];
+		if (subject.split(" ", 1)[0] != "Re:") {
+		  subject = "Re: " + subject;
+		}
+		document.querySelector('#compose-subject').value = subject;
+
+		const body = `On ${email['timestamp']}, ${email['sender']} wrote: ${email['body']}`;
+		document.querySelector('#compose-body').value = body;
+	  });
+
+	  emailContent.appendChild(reply);
+
+	  archiveButton = document.createElement('button');
 	  archiveButton.className = "btn btn-sm btn-outline-secondary";
 	  archiveButton.innerHTML = !email['archived'] ? 'Archive' : 'Unarchive';
+
 	  archiveButton.addEventListener('click', function() {
 		fetch('/emails/' + email['id'], {
 		  method: 'PUT',
@@ -101,6 +124,7 @@ function load_email(id) {
 		})
 		.then(response => load_mailbox('inbox'))
 	  });
+
 	  emailContent.appendChild(archiveButton);
     });
 }
