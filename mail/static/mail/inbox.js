@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function compose_email() {
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#email-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -25,6 +26,7 @@ function compose_email() {
 function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
+  document.querySelector('#email-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
@@ -36,14 +38,14 @@ function load_mailbox(mailbox) {
     .then(emails => {
         emails.forEach(email => {
             let div = document.createElement('div');
-            div.className = "email-list-item";
+            div.className = email['read'] ? "email-list-item email-list-item-read" : "email-list-item email-list-item-unread";
             div.innerHTML = `
                 <span> <b>${email['sender']}</b> </span>
                 <span> ${email['subject']} </span>
                 <span> ${email['timestamp']} </span>
             `;
 
-            div.addEventListener('click', () => console.log(email));
+            div.addEventListener('click', () => load_email(email['id']));
             emailsContent.appendChild(div);
         });
     });
@@ -62,4 +64,31 @@ function submit_email(event) {
     })
   })
   .then(response => load_mailbox('sent'));
+}
+
+function load_email(id) {
+    fetch('/emails/' + id)
+      .then(response => response.json())
+      .then(email => {
+        // Show email and hide other views
+        document.querySelector('#emails-view').style.display = 'none';
+        document.querySelector('#email-view').style.display = 'block';
+        document.querySelector('#compose-view').style.display = 'none';
+
+        const emailContent = document.querySelector('#email-view');
+        emailContent.innerHTML = `
+          <ul class="email-info">
+            <li><b>From:</b> <span>${email['sender']}</span></li>
+            <li><b>To: </b><span>${email['recipients']}</span></li>
+            <li><b>Subject:</b> <span>${email['subject']}</span</li>
+            <li><b>Time:</b> <span>${email['timestamp']}</span></li>
+          </ul>
+          <p>${email['body']}</p>
+        `;
+
+      fetch('/emails/' + email['id'], {
+        method: 'PUT',
+        body: JSON.stringify({ read : true })
+      })
+    });
 }
